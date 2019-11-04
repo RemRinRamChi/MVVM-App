@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.yawjenn.mvvmpractice.data.DataRepository
 import com.yawjenn.mvvmpractice.home.HomeViewModel
+import com.yawjenn.mvvmpractice.tasks.TasksViewModel
 
 class ViewModelFactory private constructor(
         private val dataRepository: DataRepository
@@ -19,6 +20,8 @@ class ViewModelFactory private constructor(
                 when {
                     isAssignableFrom(HomeViewModel::class.java) ->
                         HomeViewModel(dataRepository)
+                    isAssignableFrom(TasksViewModel::class.java) ->
+                        TasksViewModel(dataRepository)
                     else ->
                         throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
                 }

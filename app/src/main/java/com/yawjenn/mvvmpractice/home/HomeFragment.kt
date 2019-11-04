@@ -5,14 +5,22 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.Observer
 import com.yawjenn.mvvmpractice.R
-import com.yawjenn.mvvmpractice.ViewModelFactory
+import com.yawjenn.mvvmpractice.tasks.TasksFragment
+import com.yawjenn.mvvmpractice.util.bindEditTextData
 import com.yawjenn.mvvmpractice.util.bindTextData
+import com.yawjenn.mvvmpractice.util.obtainViewModel
+import com.yawjenn.mvvmpractice.util.replaceFragment
 import kotlinx.android.synthetic.main.fragment_home.*
 
 class HomeFragment : Fragment() {
+
+    companion object{
+        fun newInstance() = HomeFragment()
+    }
 
     private lateinit var homeViewModel : HomeViewModel
 
@@ -20,8 +28,6 @@ class HomeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        homeViewModel = ViewModelProviders.of(this, ViewModelFactory.getInstance(activity))[HomeViewModel::class.java]
-
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_home, container, false)
     }
@@ -29,8 +35,10 @@ class HomeFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        homeViewModel = obtainViewModel(HomeViewModel::class.java)
+
         homeViewModel.run {
-            tvMessage.bindTextData(this@HomeFragment, status)
+            tvMessage.bindTextData(this@HomeFragment, message)
 
             tvUserName.bindTextData(this@HomeFragment, userName)
             tvEmail.bindTextData(this@HomeFragment, email)
@@ -38,12 +46,20 @@ class HomeFragment : Fragment() {
             etUserId.bindEditTextData(this@HomeFragment, userId)
 
             btnLoadUser.setOnClickListener { loadUser() }
+            btnEnterUser.setOnClickListener { enterUser() }
+
+            enterUserEvent.observe(this@HomeFragment, Observer { event ->
+                event.getContentIfNotHandled()?.let {
+                    Toast.makeText(context, "Entering with User $it", Toast.LENGTH_LONG).show()
+                    enterUserScreen(it)
+                }
+            })
         }
 
         homeViewModel.start()
     }
 
-    companion object{
-        fun newInstance() = HomeFragment()
+    private fun enterUserScreen(userId: String){
+        replaceFragment(TasksFragment.newInstance(userId))
     }
 }

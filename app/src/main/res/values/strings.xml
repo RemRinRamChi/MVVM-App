@@ -2,4 +2,6 @@
     <string name="app_name">MVVM Practice</string>
 
     <string name="load_user">Load User</string>
+
+    <string name="enter_user">Enter The User</string>
 </resources>
