@@ -29,9 +29,11 @@ class HomeViewModel(private val dataRepository: DataRepository) : ViewModel() {
     val enterUserEvent: LiveData<Event<String>>
         get() = _enterUserEvent
 
-    fun start(){
-        _message.value = _message.value?: AWAITING_INPUT
+
+    init {
+        _message.value = AWAITING_INPUT
     }
+
 
     fun loadUser(){
         userId.value?.let {

@@ -55,8 +55,6 @@ class HomeFragment : Fragment() {
                 }
             })
         }
-
-        homeViewModel.start()
     }
 
     private fun enterUserScreen(userId: String){
