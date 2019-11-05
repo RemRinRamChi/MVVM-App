@@ -12,35 +12,18 @@ class DataRepository(
 ) {
     private val _userCache: MutableMap<String, User> = mutableMapOf()
 
-    fun getUser(userId: String, callback: DataCallback<User>) {
+    suspend fun getUser(userId: String) : User{
 
         val cached = _userCache[userId]
         if(cached != null){
             "User loaded from CACHE".log()
-
-            callback.onDataLoaded(cached)
-            return
+            return cached
         }
 
-        jsonApiService.getUser(userId).enqueue(object : Callback<User>{
-            override fun onResponse(call: Call<User>, response: Response<User>) {
-                response.body().let {
-                    "User loaded from WEB".log()
-
-                    if(it != null){
-                        callback.onDataLoaded(it)
-                        _userCache.put(userId, it)
-                    } else {
-                        callback.onDataNotAvailable(DATA_NULL)
-                    }
-                }
-            }
-
-            override fun onFailure(call: Call<User>, t: Throwable) {
-                callback.onDataNotAvailable(t.message ?: GENERAL_ERROR_MESSAGE)
-            }
-
-        })
+        return jsonApiService.getUser(userId).also {
+            "User loaded from WEB".log()
+            _userCache[userId] = it
+        }
     }
 
 

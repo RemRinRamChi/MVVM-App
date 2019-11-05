@@ -1,14 +1,20 @@
 package com.yawjenn.mvvmpractice.home
 
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.yawjenn.mvvmpractice.Event
-import com.yawjenn.mvvmpractice.data.DataCallback
 import com.yawjenn.mvvmpractice.data.DataRepository
 import com.yawjenn.mvvmpractice.data.User
+import com.yawjenn.mvvmpractice.util.log
+import kotlinx.coroutines.launch
 
 const val AWAITING_INPUT: String = "Awaiting Input"
 const val LOADING_USER: String = "Loading User"
 const val PLEASE_ENTER_USER: String = "Please Enter a Valid User Id"
+const val DATA_NULL : String = "Data was null"
+const val GENERAL_ERROR_MESSAGE : String = "Something went wrong"
 
 class HomeViewModel(private val dataRepository: DataRepository) : ViewModel() {
     val userId = MutableLiveData<String>()
@@ -39,23 +45,27 @@ class HomeViewModel(private val dataRepository: DataRepository) : ViewModel() {
         userId.value?.let {
             _message.value = LOADING_USER
 
-            dataRepository.getUser(it, object : DataCallback<User>{
-                override fun onDataLoaded(data: User) {
+            viewModelScope.launch {
+                try {
+                    _message.value = LOADING_USER
+
+                    val data: User = dataRepository.getUser(it)
+
                     _userName.value = data.username
                     _email.value = data.email
-
                     _message.value = ""
-                }
 
-                override fun onDataNotAvailable(message: String) {
+                } catch (e: Exception) {
+
+                    e.toString().log()
+
                     userId.value = ""
                     _userName.value = ""
                     _email.value = ""
+                    _message.value = GENERAL_ERROR_MESSAGE
 
-                    _message.value = message
                 }
-
-            })
+            }
         }
     }
 
