@@ -38,17 +38,17 @@ class HomeFragment : Fragment() {
         homeViewModel = obtainViewModel(HomeViewModel::class.java)
 
         homeViewModel.run {
-            tvMessage.bindTextData(this@HomeFragment, message)
+            tvMessage.bindTextData(viewLifecycleOwner, message)
 
-            tvUserName.bindTextData(this@HomeFragment, userName)
-            tvEmail.bindTextData(this@HomeFragment, email)
+            tvUserName.bindTextData(viewLifecycleOwner, userName)
+            tvEmail.bindTextData(viewLifecycleOwner, email)
 
-            etUserId.bindEditTextData(this@HomeFragment, userId)
+            etUserId.bindEditTextData(viewLifecycleOwner, userId)
 
             btnLoadUser.setOnClickListener { loadUser() }
             btnEnterUser.setOnClickListener { enterUser() }
 
-            enterUserEvent.observe(this@HomeFragment, Observer { event ->
+            enterUserEvent.observe(viewLifecycleOwner, Observer { event ->
                 event.getContentIfNotHandled()?.let {
                     Toast.makeText(context, "Entering with User $it", Toast.LENGTH_LONG).show()
                     enterUserScreen(it)

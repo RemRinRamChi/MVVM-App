@@ -38,7 +38,7 @@ class TasksFragment : Fragment() {
         viewModel = obtainViewModel(TasksViewModel::class.java)
 
         viewModel.run {
-            tvUserId.bindTextData(this@TasksFragment, userId)
+            tvUserId.bindTextData(viewLifecycleOwner, userId)
         }
 
         viewModel.loadUser(arguments?.getString(USER_ID))
