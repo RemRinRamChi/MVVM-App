@@ -10,10 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.yawjenn.mvvmpractice.R
 import com.yawjenn.mvvmpractice.tasks.TasksFragment
-import com.yawjenn.mvvmpractice.util.bindEditTextData
-import com.yawjenn.mvvmpractice.util.bindTextData
-import com.yawjenn.mvvmpractice.util.obtainViewModel
-import com.yawjenn.mvvmpractice.util.replaceFragment
+import com.yawjenn.mvvmpractice.util.*
 import kotlinx.android.synthetic.main.fragment_home.*
 
 class HomeFragment : Fragment() {
@@ -38,7 +35,7 @@ class HomeFragment : Fragment() {
         homeViewModel = obtainViewModel(HomeViewModel::class.java)
 
         homeViewModel.run {
-            tvMessage.bindTextData(viewLifecycleOwner, message)
+            tvMessage.bindTextRes(viewLifecycleOwner, message)
 
             tvUserName.bindTextData(viewLifecycleOwner, userName)
             tvEmail.bindTextData(viewLifecycleOwner, email)
@@ -47,6 +44,7 @@ class HomeFragment : Fragment() {
 
             btnLoadUser.setOnClickListener { loadUser() }
             btnEnterUser.setOnClickListener { enterUser() }
+            btnRefresh.setOnClickListener { refresh() }
 
             enterUserEvent.observe(viewLifecycleOwner, Observer { event ->
                 event.getContentIfNotHandled()?.let {

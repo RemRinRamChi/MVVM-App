@@ -15,6 +15,12 @@ fun TextView.bindTextData(owner: LifecycleOwner, liveData: LiveData<String>){
     })
 }
 
+fun TextView.bindTextRes(owner: LifecycleOwner, liveData: LiveData<Int>){
+    liveData.observe(owner, Observer {textRes ->
+        this.text = context.getString(textRes)
+    })
+}
+
 
 fun EditText.bindEditTextData(owner: LifecycleOwner, liveData: MutableLiveData<String>){
     val watcher: TextWatcher = object : TextWatcher {

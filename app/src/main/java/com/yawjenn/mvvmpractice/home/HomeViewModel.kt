@@ -5,22 +5,17 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.yawjenn.mvvmpractice.Event
+import com.yawjenn.mvvmpractice.R
 import com.yawjenn.mvvmpractice.data.DataRepository
 import com.yawjenn.mvvmpractice.data.User
 import com.yawjenn.mvvmpractice.util.log
 import kotlinx.coroutines.launch
 
-const val AWAITING_INPUT: String = "Awaiting Input"
-const val LOADING_USER: String = "Loading User"
-const val PLEASE_ENTER_USER: String = "Please Enter a Valid User Id"
-const val DATA_NULL : String = "Data was null"
-const val GENERAL_ERROR_MESSAGE : String = "Something went wrong"
-
 class HomeViewModel(private val dataRepository: DataRepository) : ViewModel() {
     val userId = MutableLiveData<String>()
 
-    private val _message = MutableLiveData<String>()
-    val message: LiveData<String>
+    private val _message = MutableLiveData<Int>()
+    val message: LiveData<Int>
         get() = _message
 
     private val _userName = MutableLiveData<String>()
@@ -37,33 +32,28 @@ class HomeViewModel(private val dataRepository: DataRepository) : ViewModel() {
 
 
     init {
-        _message.value = AWAITING_INPUT
+        _message.value = R.string.awaiting_input
     }
 
 
     fun loadUser(){
         userId.value?.let {
-            _message.value = LOADING_USER
+            _message.value = R.string.loading_user
 
             viewModelScope.launch {
                 try {
-                    _message.value = LOADING_USER
 
                     val data: User = dataRepository.getUser(it)
 
-                    _userName.value = data.username
-                    _email.value = data.email
-                    _message.value = ""
+                    setUserInfo(data)
+                    _message.value = R.string.blank
 
                 } catch (e: Exception) {
 
                     e.toString().log()
 
-                    userId.value = ""
-                    _userName.value = ""
-                    _email.value = ""
-                    _message.value = GENERAL_ERROR_MESSAGE
-
+                    setUserInfo(null)
+                    _message.value = R.string.general_err_message
                 }
             }
         }
@@ -71,13 +61,33 @@ class HomeViewModel(private val dataRepository: DataRepository) : ViewModel() {
 
     fun enterUser(){
         with (userId.value){
-            if(this != null && this.isNotEmpty() && _message.value.isNullOrEmpty()){
+            if(this != null && this.isNotEmpty()){
                 _enterUserEvent.value = Event(this)
 
             } else {
-                _message.value = PLEASE_ENTER_USER
+                _message.value = R.string.enter_valid_user_id
 
             }
+        }
+    }
+
+    fun refresh(){
+        _message.value = R.string.refreshing_user
+
+        viewModelScope.launch {
+            dataRepository.deleteAllUsers()
+            loadUser()
+        }
+    }
+
+    private fun setUserInfo(data: User?){
+        if(data != null){
+            _userName.value = data.username
+            _email.value = data.email
+        } else {
+            userId.value = ""
+            _userName.value = ""
+            _email.value = ""
         }
     }
 }

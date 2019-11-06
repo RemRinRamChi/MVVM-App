@@ -1,7 +1,15 @@
 <resources>
     <string name="app_name">MVVM Practice</string>
 
-    <string name="load_user">Load User</string>
+    <string name="general_err_message">Something went wrong</string>
+    <string name="blank"> </string>
 
+    <string name="awaiting_input">Awaiting Input</string>
+    <string name="loading_user">Loading User</string>
+    <string name="refreshing_user">Refreshing User</string>
+    <string name="enter_valid_user_id">Please Enter a Valid User Id</string>
+
+    <string name="load_user">Load User</string>
     <string name="enter_user">Enter The User</string>
+    <string name="refresh">Refresh</string>
 </resources>
