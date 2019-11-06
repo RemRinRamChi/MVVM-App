@@ -2,14 +2,12 @@ package com.yawjenn.mvvmpractice
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.app.Application
 import androidx.annotation.VisibleForTesting
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.yawjenn.mvvmpractice.data.DataRepository
 import com.yawjenn.mvvmpractice.home.HomeViewModel
-import com.yawjenn.mvvmpractice.tasks.TasksViewModel
+import com.yawjenn.mvvmpractice.tasks.PostsViewModel
 
 class ViewModelFactory private constructor(
         private val dataRepository: DataRepository
@@ -20,8 +18,8 @@ class ViewModelFactory private constructor(
                 when {
                     isAssignableFrom(HomeViewModel::class.java) ->
                         HomeViewModel(dataRepository)
-                    isAssignableFrom(TasksViewModel::class.java) ->
-                        TasksViewModel(dataRepository)
+                    isAssignableFrom(PostsViewModel::class.java) ->
+                        PostsViewModel(dataRepository)
                     else ->
                         throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
                 }

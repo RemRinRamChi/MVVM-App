@@ -1,6 +1,8 @@
 package com.yawjenn.mvvmpractice.data
 
+import androidx.lifecycle.LiveData
 import com.yawjenn.mvvmpractice.data.local.PlaceholderDatabase
+import com.yawjenn.mvvmpractice.data.local.PostDao
 import com.yawjenn.mvvmpractice.data.local.UserDao
 import com.yawjenn.mvvmpractice.data.remote.JsonPlaceholderApiService
 import com.yawjenn.mvvmpractice.util.log
@@ -12,6 +14,8 @@ class DataRepository(
 ) {
     private var _userCache: MutableMap<String, User> = mutableMapOf()
     private val _userDao: UserDao = _placeholderDatabase.userDao()
+
+    private val _postDao: PostDao = _placeholderDatabase.postDao()
 
     suspend fun getUser(userId: String) : User{
 
@@ -38,9 +42,29 @@ class DataRepository(
         }
     }
 
-    suspend fun deleteAllUsers() : Unit{
+    suspend fun getPosts(userId: String) : LiveData<List<Post>>{
+
+        val postCountInDb = _postDao.getPostCount(userId)
+        if(postCountInDb > 0){
+            "DATABASE contains $postCountInDb posts".log()
+        } else {
+            val fetched = _jsonApiService.getPosts(userId)
+            "${fetched.size} Posts loaded from WEB".log()
+
+            _postDao.insertPosts(fetched)
+        }
+
+        return _postDao.getPosts(userId)
+    }
+
+    suspend fun updatePost(post: Post){
+        _postDao.updatePost(post)
+    }
+
+    suspend fun resetData() {
         _userCache = mutableMapOf()
         _userDao.deleteAllUsers()
+        _postDao.deleteAllPosts()
     }
 
 

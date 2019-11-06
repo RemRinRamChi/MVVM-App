@@ -9,7 +9,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.yawjenn.mvvmpractice.R
-import com.yawjenn.mvvmpractice.tasks.TasksFragment
+import com.yawjenn.mvvmpractice.tasks.PostsFragment
 import com.yawjenn.mvvmpractice.util.*
 import kotlinx.android.synthetic.main.fragment_home.*
 
@@ -48,7 +48,6 @@ class HomeFragment : Fragment() {
 
             enterUserEvent.observe(viewLifecycleOwner, Observer { event ->
                 event.getContentIfNotHandled()?.let {
-                    Toast.makeText(context, "Entering with User $it", Toast.LENGTH_LONG).show()
                     enterUserScreen(it)
                 }
             })
@@ -56,6 +55,6 @@ class HomeFragment : Fragment() {
     }
 
     private fun enterUserScreen(userId: String){
-        replaceFragment(TasksFragment.newInstance(userId))
+        replaceFragment(PostsFragment.newInstance(userId))
     }
 }

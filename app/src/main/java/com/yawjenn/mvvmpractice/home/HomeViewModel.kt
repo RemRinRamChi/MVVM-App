@@ -75,7 +75,7 @@ class HomeViewModel(private val dataRepository: DataRepository) : ViewModel() {
         _message.value = R.string.refreshing_user
 
         viewModelScope.launch {
-            dataRepository.deleteAllUsers()
+            dataRepository.resetData()
             loadUser()
         }
     }
