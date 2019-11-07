@@ -1,4 +1,4 @@
-package com.yawjenn.mvvmpractice.tasks
+package com.yawjenn.mvvmpractice.posts
 
 import android.graphics.Color
 import android.view.LayoutInflater

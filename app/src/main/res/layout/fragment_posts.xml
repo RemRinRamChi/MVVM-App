@@ -1,43 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="15dp"
-    tools:context=".tasks.PostsFragment">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.yawjenn.mvvmpractice.posts.PostsViewModel" />
+    </data>
 
     <LinearLayout
-        android:orientation="vertical"
-        android:padding="5dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="15dp"
+        tools:context=".posts.PostsFragment">
 
-        <TextView
-            android:id="@+id/tvUserLabel"
+        <LinearLayout
+            android:orientation="vertical"
+            android:padding="5dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:textSize="18sp"
-            tools:text="Hello User 9" />
+            android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/tvPostUnreadCountLabel"
+            <TextView
+                android:id="@+id/tvUserLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:text="@{@string/hello_user_format(viewModel.userId)}"
+                tools:text="Hello User 9" />
+
+            <TextView
+                android:id="@+id/tvPostUnreadCountLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textStyle="italic"
+                android:textSize="18sp"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="16dp"
+                android:text="@{viewModel.unreadPostCountLabel}"
+                tools:text="You have 9 unread posts" />
+
+
+        </LinearLayout>
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvPosts"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textStyle="italic"
-            android:textSize="18sp"
-            android:layout_marginTop="6dp"
-            android:layout_marginBottom="16dp"
-            tools:text="You have 9 unread posts" />
-
+            android:layout_height="match_parent" />
 
     </LinearLayout>
-
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvPosts"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
-</LinearLayout>
+</layout>

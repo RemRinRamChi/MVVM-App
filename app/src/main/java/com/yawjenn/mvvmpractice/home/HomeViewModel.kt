@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 class HomeViewModel(private val dataRepository: DataRepository) : ViewModel() {
     val userId = MutableLiveData<String>()
 
-    private val _message = MutableLiveData<Int>()
+    private val _message = MutableLiveData<Int>().apply { value = R.string.awaiting_input }
     val message: LiveData<Int>
         get() = _message
 
@@ -29,11 +29,6 @@ class HomeViewModel(private val dataRepository: DataRepository) : ViewModel() {
     private val _enterUserEvent = MutableLiveData<Event<String>>()
     val enterUserEvent: LiveData<Event<String>>
         get() = _enterUserEvent
-
-
-    init {
-        _message.value = R.string.awaiting_input
-    }
 
 
     fun loadUser(){

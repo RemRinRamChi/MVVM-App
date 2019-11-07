@@ -44,6 +44,8 @@ class DataRepository(
 
     suspend fun getPosts(userId: String) : LiveData<List<Post>>{
 
+        _userDao.getUser(userId) ?: getUser(userId)
+
         val postCountInDb = _postDao.getPostCount(userId)
         if(postCountInDb > 0){
             "DATABASE contains $postCountInDb posts".log()

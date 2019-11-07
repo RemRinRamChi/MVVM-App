@@ -1,74 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <TextView
-        android:id="@+id/tvMessage"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center_horizontal"
-        android:padding="10dp"
-        android:textColor="@android:color/holo_red_light"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        tools:text="Loading" />
+    <data>
+        <variable
+            name="viewModel"
+            type="com.yawjenn.mvvmpractice.home.HomeViewModel" />
+    </data>
 
-    <LinearLayout
-        android:id="@+id/llMain"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="40dp"
-        android:paddingTop="10dp"
-        android:orientation="vertical"
-        tools:context=".home.HomeFragment">
+        android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/tvUserName"
+            android:id="@+id/tvMessage"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:textSize="30sp"
-            tools:text="User Name" />
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal"
+            android:padding="10dp"
+            android:textColor="@android:color/holo_red_light"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:text="@{viewModel.message}"
+            tools:text="Loading" />
 
-        <TextView
-            android:id="@+id/tvEmail"
+        <LinearLayout
+            android:id="@+id/llMain"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="30dp"
-            android:textSize="20sp"
-            tools:text="Email" />
+            android:layout_height="match_parent"
+            android:layout_margin="40dp"
+            android:paddingTop="10dp"
+            android:orientation="vertical"
+            tools:context=".home.HomeFragment">
 
-        <EditText
-            android:id="@+id/etUserId"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="50dp"
-            android:inputType="number"
-            android:textSize="20sp" />
+            <TextView
+                android:id="@+id/tvUserName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:textSize="30sp"
+                android:text="@{viewModel.userName}"
+                tools:text="User Name" />
 
-        <Button
-            android:id="@+id/btnLoadUser"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:text="@string/load_user" />
+            <TextView
+                android:id="@+id/tvEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="30dp"
+                android:textSize="20sp"
+                android:text="@{viewModel.email}"
+                tools:text="Email" />
 
-        <Button
-            android:id="@+id/btnEnterUser"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="30dp"
-            android:text="@string/enter_user" />
+            <EditText
+                android:id="@+id/etUserId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="50dp"
+                android:inputType="number"
+                android:text="@={viewModel.userId}"
+                android:textSize="20sp" />
 
-        <Button
-            android:id="@+id/btnRefresh"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/refresh" />
+            <Button
+                android:id="@+id/btnLoadUser"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:onClick="@{() -> viewModel.loadUser()}"
+                android:text="@string/load_user" />
 
-    </LinearLayout>
+            <Button
+                android:id="@+id/btnEnterUser"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="30dp"
+                android:onClick="@{() -> viewModel.enterUser()}"
+                app:disableIfEmptyOrNull="@{viewModel.userId}"
+                android:text="@string/enter_user" />
+
+            <Button
+                android:id="@+id/btnRefresh"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="@{() -> viewModel.refresh()}"
+                android:text="@string/refresh" />
+
+        </LinearLayout>
 
 
-</FrameLayout>
+    </FrameLayout>
+</layout>

@@ -12,4 +12,6 @@
     <string name="load_user">Load User</string>
     <string name="enter_user">Enter The User</string>
     <string name="refresh">Refresh</string>
+
+    <string name="hello_user_format">Hello User %s</string>
 </resources>
