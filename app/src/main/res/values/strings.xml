@@ -5,13 +5,17 @@
     <string name="blank"> </string>
 
     <string name="awaiting_input">Awaiting Input</string>
-    <string name="loading_user">Loading User</string>
+    <string name="loading">Loading…</string>
     <string name="refreshing_user">Refreshing User</string>
     <string name="enter_valid_user_id">Please Enter a Valid User Id</string>
 
     <string name="load_user">Load User</string>
     <string name="enter_user">Enter The User</string>
     <string name="refresh">Refresh</string>
+    <string name="submit_random">Submit Random</string>
 
     <string name="hello_user_format">Hello User %s</string>
+
+    <string name="guess_word">Guess Word</string>
+    <string name="is_a_format">%s is a</string>
 </resources>

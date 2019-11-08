@@ -17,27 +17,29 @@ class DataRepository(
 
     private val _postDao: PostDao = _placeholderDatabase.postDao()
 
+    private var _guessCache: MutableMap<String, Guess> = mutableMapOf()
+
     suspend fun getUser(userId: String) : User{
 
         val cached = _userCache[userId]
         if(cached != null){
-            "User loaded from CACHE".log()
+            "User loaded from CACHE: $cached".log()
             return cached
         }
 
         val persisted = _userDao.getUser(userId)
         if(persisted != null){
-            "User loaded from DATABASE".log()
+            "User loaded from DATABASE: $persisted".log()
             return persisted.also {
                 _userCache[userId] = it
             }
         }
 
         val fetched = _jsonApiService.getUser(userId)
-        "User loaded from WEB".log()
+        "User loaded from WEB: $fetched".log()
 
         return fetched.also {
-            _userDao.insertUser(it.also { it.userId = userId })
+            _userDao.insertUser(it)
             _userCache[userId] = it
         }
     }
@@ -61,6 +63,17 @@ class DataRepository(
 
     suspend fun updatePost(post: Post){
         _postDao.updatePost(post)
+    }
+
+    suspend fun submitGuess(guessWord: String) : Guess {
+        val cached = _guessCache[guessWord]
+        if(cached != null){
+            return cached
+        }
+
+        return _jsonApiService.postGuess(Guess.generateRandomGuess(guessWord)).also {
+            _guessCache[guessWord] = it
+        }
     }
 
     suspend fun resetData() {

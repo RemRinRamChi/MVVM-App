@@ -15,7 +15,7 @@ class AddressConverter {
                     street = splitAddress[0],
                     suite = splitAddress[1],
                     city = splitAddress[2],
-                    zipcode = splitAddress[3])
+                    zipCode = splitAddress[3])
             }
         }
 
@@ -25,7 +25,7 @@ class AddressConverter {
     @TypeConverter
     fun addressToString(address: Address?): String? {
         if(address != null){
-            return arrayOf(address.street, address.suite, address.city, address.zipcode).joinToString(separator = ADDRESS_SEPARATOR)
+            return arrayOf(address.street, address.suite, address.city, address.zipCode).joinToString(separator = ADDRESS_SEPARATOR)
         } else {
             return ""
         }

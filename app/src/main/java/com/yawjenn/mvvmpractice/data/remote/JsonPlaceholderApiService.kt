@@ -1,12 +1,11 @@
 package com.yawjenn.mvvmpractice.data.remote
 
+import com.yawjenn.mvvmpractice.data.Guess
 import com.yawjenn.mvvmpractice.data.Post
 import com.yawjenn.mvvmpractice.data.User
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
-import retrofit2.http.GET
-import retrofit2.http.Path
-import retrofit2.http.Query
+import retrofit2.http.*
 
 interface JsonPlaceholderApiService {
     @GET("users/{id}")
@@ -14,6 +13,9 @@ interface JsonPlaceholderApiService {
 
     @GET("posts")
     suspend fun getPosts(@Query("userId") userId: String): List<Post>
+
+    @POST("posts")
+    suspend fun postGuess(@Body guess: Guess): Guess
 
     companion object{
         fun create(): JsonPlaceholderApiService {

@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.yawjenn.mvvmpractice.data.DataRepository
 import com.yawjenn.mvvmpractice.home.HomeViewModel
 import com.yawjenn.mvvmpractice.posts.PostsViewModel
+import com.yawjenn.mvvmpractice.guess.GuessViewModel
 
 class ViewModelFactory private constructor(
         private val dataRepository: DataRepository
@@ -20,6 +21,8 @@ class ViewModelFactory private constructor(
                         HomeViewModel(dataRepository)
                     isAssignableFrom(PostsViewModel::class.java) ->
                         PostsViewModel(dataRepository)
+                    isAssignableFrom(GuessViewModel::class.java) ->
+                        GuessViewModel(dataRepository)
                     else ->
                         throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
                 }

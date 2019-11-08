@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.yawjenn.mvvmpractice.guess.GuessViewModel" />
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/llMain"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="40dp"
+            android:paddingTop="10dp"
+            android:orientation="vertical"
+            tools:context=".home.HomeFragment">
+
+            <TextView
+                android:id="@+id/tvGuessWord"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:textSize="30sp"
+                app:hideIfEmptyOrNull="@{viewModel.guessWord}"
+                android:text="@{@string/is_a_format(viewModel.guessWord)}" />
+
+            <TextView
+                android:id="@+id/tvGuess"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="30dp"
+                android:textSize="20sp"
+                android:text="@{viewModel.guess}" />
+
+            <EditText
+                android:id="@+id/etGuessWord"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="50dp"
+                android:inputType="text"
+                android:text="@={viewModel.guessWord}"
+                android:textSize="20sp" />
+
+            <Button
+                android:id="@+id/btnSubmitGuess"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                app:disableIfEmptyOrNull="@{viewModel.guessWord}"
+                android:onClick="@{() -> viewModel.submitGuessWord()}"
+                android:text="@string/guess_word" />
+
+        </LinearLayout>
+
+
+    </FrameLayout>
+</layout>

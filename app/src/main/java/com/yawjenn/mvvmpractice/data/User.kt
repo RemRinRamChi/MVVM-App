@@ -4,20 +4,13 @@ import androidx.room.ColumnInfo
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-
-data class Address (
-    val street: String = "",
-    val suite: String = "",
-    val city: String = "",
-    @ColumnInfo(name = "zip_code")
-    val zipcode : String = ""
-)
+import com.squareup.moshi.Json
 
 @Entity
 data class User (
     @PrimaryKey
-    @ColumnInfo(name = "id", index = true)
-    var userId: String = "",
+    @ColumnInfo(index = true)
+    var id: String = "",
     val name: String = "",
     @ColumnInfo(name = "user_name")
     val username: String = "",
@@ -26,4 +19,13 @@ data class User (
     val address: Address,
     val phone: String,
     val website: String
+)
+
+data class Address (
+    val street: String = "",
+    val suite: String = "",
+    val city: String = "",
+    @field:Json(name = "zipcode")
+    @ColumnInfo(name = "zip_code")
+    val zipCode : String = ""
 )

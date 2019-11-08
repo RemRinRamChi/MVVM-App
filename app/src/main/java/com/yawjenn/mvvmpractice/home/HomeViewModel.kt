@@ -30,10 +30,14 @@ class HomeViewModel(private val dataRepository: DataRepository) : ViewModel() {
     val enterUserEvent: LiveData<Event<String>>
         get() = _enterUserEvent
 
+    private val _guessWordEvent = MutableLiveData<Event<Unit>>()
+    val guessWordEvent: LiveData<Event<Unit>>
+        get() = _guessWordEvent
+
 
     fun loadUser(){
         userId.value?.let {
-            _message.value = R.string.loading_user
+            _message.value = R.string.loading
 
             viewModelScope.launch {
                 try {
@@ -73,6 +77,10 @@ class HomeViewModel(private val dataRepository: DataRepository) : ViewModel() {
             dataRepository.resetData()
             loadUser()
         }
+    }
+
+    fun guessWord(){
+        _guessWordEvent.value = Event(Unit)
     }
 
     private fun setUserInfo(data: User?){

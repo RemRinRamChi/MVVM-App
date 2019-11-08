@@ -4,6 +4,11 @@ import android.view.View
 import androidx.databinding.BindingAdapter
 import androidx.lifecycle.MutableLiveData
 
+@BindingAdapter("app:hideIfEmptyOrNull")
+fun hideIfEmptyOrNull(view: View, string: MutableLiveData<String>) {
+    view.visibility = if(string.value.isNullOrEmpty()) View.INVISIBLE else View.VISIBLE
+}
+
 @BindingAdapter("app:disableIfEmptyOrNull")
 fun disableIfEmptyOrNull(view: View, string: MutableLiveData<String>) {
     view.isEnabled = !string.value.isNullOrEmpty()
