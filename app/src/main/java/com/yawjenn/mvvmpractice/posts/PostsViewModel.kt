@@ -29,10 +29,8 @@ class PostsViewModel(private val _dataRepository: DataRepository)  : ViewModel()
     }
 
     fun onPostToggled(post: Post){
-        post.read = !post.read
-
         viewModelScope.launch(Dispatchers.IO) {
-            _dataRepository.updatePost(post)
+            _dataRepository.updatePost(post.copy(read = !post.read))
         }
     }
 }

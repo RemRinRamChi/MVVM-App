@@ -46,7 +46,7 @@ class PostsFragment : Fragment() {
 
         postsViewModel.run {
             userPosts.observe(viewLifecycleOwner, Observer {
-                postListAdapter.setPosts(it)
+                postListAdapter.updatePosts(it)
             })
 
             loadUser(arguments?.getString(USER_ID))

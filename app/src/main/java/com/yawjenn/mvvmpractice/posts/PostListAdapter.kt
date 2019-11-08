@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.yawjenn.mvvmpractice.data.Post
 import com.yawjenn.mvvmpractice.databinding.ItemPostBinding
-import com.yawjenn.mvvmpractice.util.log
+import androidx.recyclerview.widget.DiffUtil
 
 
 class PostListAdapter(
@@ -29,13 +29,13 @@ class PostListAdapter(
     override fun onBindViewHolder(holder: PostViewHolder, position: Int)
             = holder.bind(posts[position], _postsViewModel)
 
-    fun setPosts(posts: List<Post>) {
-        this.posts.removeAll(this.posts)
+    fun updatePosts(posts: List<Post>) {
+        val diffResult = DiffUtil.calculateDiff(PostListDiffCallback(this.posts, posts))
+
+        this.posts.clear()
         this.posts.addAll(posts)
 
-        "set ${posts.size} Posts to ${this.posts.size}".log()
-
-        notifyDataSetChanged()
+        diffResult.dispatchUpdatesTo(this)
     }
 
     override fun getItemCount() = posts.size
