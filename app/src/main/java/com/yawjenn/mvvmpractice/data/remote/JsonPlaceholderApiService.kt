@@ -6,6 +6,8 @@ import com.yawjenn.mvvmpractice.data.User
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.*
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 
 interface JsonPlaceholderApiService {
     @GET("users/{id}")
@@ -20,9 +22,18 @@ interface JsonPlaceholderApiService {
     companion object{
         fun create(): JsonPlaceholderApiService {
 
+            val logging = HttpLoggingInterceptor().apply {
+                level = HttpLoggingInterceptor.Level.BODY
+            }
+
+            val client = OkHttpClient.Builder()
+                .addInterceptor(logging)
+                .build()
+
             val retrofit = Retrofit.Builder()
-                .addConverterFactory(MoshiConverterFactory.create())
                 .baseUrl("https://jsonplaceholder.typicode.com/")
+                .client(client)
+                .addConverterFactory(MoshiConverterFactory.create())
                 .build()
 
             return retrofit.create(JsonPlaceholderApiService::class.java)
