@@ -8,3 +8,8 @@ import androidx.lifecycle.MutableLiveData
 fun disableIfEmptyOrNull(view: View, string: MutableLiveData<String>) {
     view.isEnabled = !string.value.isNullOrEmpty()
 }
+
+@BindingAdapter(value = ["app:mark", "app:markedColor", "app:unmarkedColor"], requireAll = true)
+fun changeColorBasedOnMark(view: View, mark: Boolean, markedColor: Int, unmarkedColor: Int) {
+    view.setBackgroundColor(if (mark) markedColor else unmarkedColor)
+}
