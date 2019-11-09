@@ -7,8 +7,10 @@ import androidx.room.RoomDatabase
 import com.yawjenn.mvvmpractice.data.Post
 import com.yawjenn.mvvmpractice.data.User
 
+const val LOCAL_DATABASE_NAME = "local_database"
+
 @Database(entities = [User::class, Post::class], version = 1)
-abstract class PlaceholderDatabase : RoomDatabase(){
+abstract class LocalDatabase : RoomDatabase() {
 
     abstract fun userDao(): UserDao
     abstract fun postDao(): PostDao
@@ -16,19 +18,21 @@ abstract class PlaceholderDatabase : RoomDatabase(){
     companion object {
 
         @Volatile
-        private var INSTANCE: PlaceholderDatabase? = null
+        private var INSTANCE: LocalDatabase? = null
 
-        fun getInstance(context: Context): PlaceholderDatabase {
+        fun getInstance(context: Context): LocalDatabase {
             val tempInstance = INSTANCE
             if (tempInstance != null) {
                 return tempInstance
             }
+
             synchronized(this) {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
-                    PlaceholderDatabase::class.java,
-                    "placeholder_database"
+                    LocalDatabase::class.java,
+                    LOCAL_DATABASE_NAME
                 ).build()
+
                 INSTANCE = instance
                 return instance
             }

@@ -9,28 +9,24 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.yawjenn.mvvmpractice.R
-import com.yawjenn.mvvmpractice.databinding.FragmentPostsBinding
-import com.yawjenn.mvvmpractice.util.obtainViewModel
-import kotlinx.android.synthetic.main.fragment_posts.*
+import com.yawjenn.mvvmpractice.databinding.PostsFragmentBinding
+import com.yawjenn.mvvmpractice.util.obtainFragmentViewModel
+import kotlinx.android.synthetic.main.posts_fragment.*
 
 class PostsFragment : Fragment() {
 
-    private lateinit var binding: FragmentPostsBinding
-
-    private val postsViewModel : PostsViewModel by lazy {
-        obtainViewModel(PostsViewModel::class.java)
-    }
+    private lateinit var binding: PostsFragmentBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_posts, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.posts_fragment, container, false)
 
         with(binding){
             lifecycleOwner = viewLifecycleOwner
-            viewModel = postsViewModel
+            viewModel = obtainFragmentViewModel(PostsViewModel::class.java)
         }
 
         return binding.root
@@ -39,12 +35,11 @@ class PostsFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        val postListAdapter = PostListAdapter(postsViewModel)
-        rvPosts.adapter = postListAdapter
-        rvPosts.layoutManager = LinearLayoutManager(context)
+        binding.viewModel?.run {
+            val postListAdapter = PostListAdapter(this)
+            rvPosts.adapter = postListAdapter
+            rvPosts.layoutManager = LinearLayoutManager(context)
 
-
-        postsViewModel.run {
             userPosts.observe(viewLifecycleOwner, Observer {
                 postListAdapter.updatePosts(it)
             })

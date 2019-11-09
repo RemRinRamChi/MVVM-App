@@ -6,11 +6,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.yawjenn.mvvmpractice.data.DataRepository
 import com.yawjenn.mvvmpractice.data.Guess
-import com.yawjenn.mvvmpractice.util.log
+import com.yawjenn.mvvmpractice.util.logError
 import kotlinx.coroutines.launch
-import java.lang.Exception
 
-class GuessViewModel(private val _dataRepository: DataRepository)   : ViewModel() {
+class GuessViewModel(private val dataRepository: DataRepository)   : ViewModel() {
     val guessWord = MutableLiveData<String>().apply { value = "" }
 
     private val _guess = MutableLiveData<String>()
@@ -23,13 +22,13 @@ class GuessViewModel(private val _dataRepository: DataRepository)   : ViewModel(
                 try {
                     _guess.value = "loading . . . . ."
 
-                    val guess: Guess = _dataRepository.submitGuess(it)
+                    val guess: Guess = dataRepository.submitGuess(it)
                     _guess.value = guess.guess
 
                 } catch (e: Exception) {
-                    _guess.value = ""
+                    _guess.value = "an error occurred"
 
-                    e.toString().log()
+                    e.toString().logError()
                 }
             }
         }

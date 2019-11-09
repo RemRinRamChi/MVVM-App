@@ -2,6 +2,7 @@ package com.yawjenn.mvvmpractice
 
 /**
  * Used as a wrapper for data that is exposed via a LiveData that represents an event.
+ * - Meant to be consumed only once
  */
 open class Event<out T>(private val content: T) {
 

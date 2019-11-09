@@ -7,27 +7,23 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.yawjenn.mvvmpractice.R
-import com.yawjenn.mvvmpractice.databinding.FragmentGuessBinding
-import com.yawjenn.mvvmpractice.util.obtainViewModel
+import com.yawjenn.mvvmpractice.databinding.GuessFragmentBinding
+import com.yawjenn.mvvmpractice.util.obtainFragmentViewModel
 
 class GuessFragment : Fragment() {
 
-    private lateinit var binding: FragmentGuessBinding
-
-    private val guessViewModel: GuessViewModel by lazy {
-        obtainViewModel(GuessViewModel::class.java)
-    }
+    private lateinit var binding: GuessFragmentBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_guess, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.guess_fragment, container, false)
 
         with(binding) {
             lifecycleOwner = viewLifecycleOwner
-            viewModel = guessViewModel
+            viewModel = obtainFragmentViewModel(GuessViewModel::class.java)
         }
 
         return binding.root

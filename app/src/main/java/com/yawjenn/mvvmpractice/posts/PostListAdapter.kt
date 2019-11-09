@@ -4,30 +4,33 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.yawjenn.mvvmpractice.data.Post
-import com.yawjenn.mvvmpractice.databinding.ItemPostBinding
 import androidx.recyclerview.widget.DiffUtil
+import com.yawjenn.mvvmpractice.databinding.PostItemBinding
 
 
 class PostListAdapter(
-    private val _postsViewModel: PostsViewModel
+    private val postsViewModel: PostsViewModel
 ) : RecyclerView.Adapter<PostListAdapter.PostViewHolder>() {
 
     private val posts = mutableListOf<Post>() // Cached copy of posts
 
-    inner class PostViewHolder(private val _binding: ItemPostBinding) : RecyclerView.ViewHolder(_binding.root) {
+    inner class PostViewHolder(private val binding: PostItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(post: Post, postsViewModel: PostsViewModel){
-            _binding.post = post
-            _binding.postsViewModel = postsViewModel
-            _binding.executePendingBindings() // important to execute immediately before RecyclerView calculates layout
+            binding.post = post
+            binding.postsViewModel = postsViewModel
+
+            binding.executePendingBindings() // important to execute immediately before RecyclerView calculates layout
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder =
-        PostViewHolder(ItemPostBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+        PostViewHolder(PostItemBinding.inflate(LayoutInflater.from(parent.context), parent, false))
 
     override fun onBindViewHolder(holder: PostViewHolder, position: Int)
-            = holder.bind(posts[position], _postsViewModel)
+            = holder.bind(posts[position], postsViewModel)
+
+    override fun getItemCount() = posts.size
 
     fun updatePosts(posts: List<Post>) {
         val diffResult = DiffUtil.calculateDiff(PostListDiffCallback(this.posts, posts))
@@ -38,7 +41,6 @@ class PostListAdapter(
         diffResult.dispatchUpdatesTo(this)
     }
 
-    override fun getItemCount() = posts.size
 }
 
 

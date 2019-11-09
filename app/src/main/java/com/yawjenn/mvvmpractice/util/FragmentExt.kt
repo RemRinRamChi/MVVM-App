@@ -8,13 +8,19 @@ import com.yawjenn.mvvmpractice.R
 import com.yawjenn.mvvmpractice.ViewModelFactory
 
 
-fun <T : ViewModel> Fragment.obtainViewModel(viewModelClass: Class<T>) =
+/**
+ * Obtain a ViewModel scoped to the Fragment
+ */
+fun <T : ViewModel> Fragment.obtainFragmentViewModel(viewModelClass: Class<T>) =
     ViewModelProviders.of(this, ViewModelFactory.getInstance(activity)).get(viewModelClass)
 
 fun Fragment.getFragmentTag(): String{
     return this.javaClass.simpleName
 }
 
+/**
+ * Replaces fragment and adds the transaction to the back stack
+ */
 fun Fragment.replaceFragment(newFragment: Fragment){
     activity?.supportFragmentManager?.commit {
         replace(R.id.container, newFragment, newFragment.getFragmentTag())

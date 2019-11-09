@@ -9,7 +9,9 @@ import retrofit2.http.*
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 
-interface JsonPlaceholderApiService {
+const val REMOTE_API_BASE_URL = "https://jsonplaceholder.typicode.com/";
+
+interface RemoteApiService {
     @GET("users/{id}")
     suspend fun getUser(@Path("id") userId: String): User
 
@@ -20,8 +22,9 @@ interface JsonPlaceholderApiService {
     suspend fun postGuess(@Body guess: Guess): Guess
 
     companion object{
-        fun create(): JsonPlaceholderApiService {
+        fun create(): RemoteApiService {
 
+            // NOTE: Disable when HTTP logging is not required
             val logging = HttpLoggingInterceptor().apply {
                 level = HttpLoggingInterceptor.Level.BODY
             }
@@ -31,12 +34,12 @@ interface JsonPlaceholderApiService {
                 .build()
 
             val retrofit = Retrofit.Builder()
-                .baseUrl("https://jsonplaceholder.typicode.com/")
+                .baseUrl(REMOTE_API_BASE_URL)
                 .client(client)
                 .addConverterFactory(MoshiConverterFactory.create())
                 .build()
 
-            return retrofit.create(JsonPlaceholderApiService::class.java)
+            return retrofit.create(RemoteApiService::class.java)
         }
     }
 

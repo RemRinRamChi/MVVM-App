@@ -9,6 +9,7 @@ import com.yawjenn.mvvmpractice.R
 import com.yawjenn.mvvmpractice.data.DataRepository
 import com.yawjenn.mvvmpractice.data.User
 import com.yawjenn.mvvmpractice.util.log
+import com.yawjenn.mvvmpractice.util.logError
 import kotlinx.coroutines.launch
 
 class HomeViewModel(private val dataRepository: DataRepository) : ViewModel() {
@@ -49,7 +50,7 @@ class HomeViewModel(private val dataRepository: DataRepository) : ViewModel() {
 
                 } catch (e: Exception) {
 
-                    e.toString().log()
+                    e.toString().logError()
 
                     setUserInfo(null)
                     _message.value = R.string.general_err_message
