@@ -6,8 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.yawjenn.mvvmpractice.R
 import com.yawjenn.mvvmpractice.databinding.PostsFragmentBinding
 import com.yawjenn.mvvmpractice.util.obtainFragmentViewModel
@@ -36,13 +34,7 @@ class PostsFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         binding.viewModel?.run {
-            val postListAdapter = PostListAdapter(this)
-            rvPosts.adapter = postListAdapter
-            rvPosts.layoutManager = LinearLayoutManager(context)
-
-            userPosts.observe(viewLifecycleOwner, Observer {
-                postListAdapter.updatePosts(it)
-            })
+            rvPosts.adapter = PostListAdapter(this)
 
             loadUser(arguments?.getString(USER_ID))
         }

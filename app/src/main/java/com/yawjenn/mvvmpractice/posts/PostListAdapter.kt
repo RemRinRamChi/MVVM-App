@@ -6,11 +6,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.yawjenn.mvvmpractice.data.Post
 import androidx.recyclerview.widget.DiffUtil
 import com.yawjenn.mvvmpractice.databinding.PostItemBinding
+import com.yawjenn.mvvmpractice.util.BindableAdapter
+import com.yawjenn.mvvmpractice.util.clearAndAddAll
 
 
 class PostListAdapter(
     private val postsViewModel: PostsViewModel
-) : RecyclerView.Adapter<PostListAdapter.PostViewHolder>() {
+) : RecyclerView.Adapter<PostListAdapter.PostViewHolder>(), BindableAdapter<List<Post>> {
 
     private val posts = mutableListOf<Post>() // Cached copy of posts
 
@@ -32,11 +34,10 @@ class PostListAdapter(
 
     override fun getItemCount() = posts.size
 
-    fun updatePosts(posts: List<Post>) {
-        val diffResult = DiffUtil.calculateDiff(PostListDiffCallback(this.posts, posts))
+    override fun setData(data: List<Post>) {
+        val diffResult = DiffUtil.calculateDiff(PostListDiffCallback(this.posts, data))
 
-        this.posts.clear()
-        this.posts.addAll(posts)
+        this.posts.clearAndAddAll(data)
 
         diffResult.dispatchUpdatesTo(this)
     }
