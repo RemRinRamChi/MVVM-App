@@ -9,6 +9,7 @@ import com.yawjenn.mvvmpractice.data.DataRepository
 import com.yawjenn.mvvmpractice.home.HomeViewModel
 import com.yawjenn.mvvmpractice.posts.PostsViewModel
 import com.yawjenn.mvvmpractice.guess.GuessViewModel
+import com.yawjenn.mvvmpractice.webview.WebViewViewModel
 
 class ViewModelFactory private constructor(
         private val dataRepository: DataRepository
@@ -23,6 +24,8 @@ class ViewModelFactory private constructor(
                         PostsViewModel(dataRepository)
                     isAssignableFrom(GuessViewModel::class.java) ->
                         GuessViewModel(dataRepository)
+                    isAssignableFrom(WebViewViewModel::class.java) ->
+                        WebViewViewModel(dataRepository)
                     else ->
                         throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
                 }

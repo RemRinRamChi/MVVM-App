@@ -13,6 +13,7 @@ import com.yawjenn.mvvmpractice.databinding.HomeFragmentBinding
 import com.yawjenn.mvvmpractice.posts.PostsFragment
 import com.yawjenn.mvvmpractice.guess.GuessFragment
 import com.yawjenn.mvvmpractice.util.*
+import com.yawjenn.mvvmpractice.webview.WebViewFragment
 
 class HomeFragment : Fragment() {
 
@@ -48,6 +49,12 @@ class HomeFragment : Fragment() {
                     enterGuessWordScreen()
                 }
             })
+
+            showHelpEvent.observe(viewLifecycleOwner, Observer { event ->
+                event.handleIfNotHandled {
+                    enterShowHelpScreen()
+                }
+            })
         }
     }
 
@@ -57,6 +64,10 @@ class HomeFragment : Fragment() {
 
     private fun enterGuessWordScreen() {
         replaceFragment(GuessFragment.newInstance())
+    }
+
+    private fun enterShowHelpScreen() {
+        replaceFragment(WebViewFragment.newInstance("https://freshdesk.com/customer-support"))
     }
 
     companion object {

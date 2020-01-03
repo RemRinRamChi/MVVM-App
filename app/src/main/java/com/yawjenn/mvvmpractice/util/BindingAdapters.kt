@@ -6,6 +6,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
 
+@BindingAdapter("app:showElseHide")
+fun showElseHide(view: View, boolLiveData: LiveData<Boolean>) {
+    boolLiveData.value?.let {
+        view.visibility = if (it) View.VISIBLE else View.GONE
+    }
+}
+
 /**
  * Makes a view INVISIBLE if supplied LiveData String is null or empty
  */

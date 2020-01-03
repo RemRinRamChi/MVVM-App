@@ -35,6 +35,10 @@ class HomeViewModel(private val dataRepository: DataRepository) : ViewModel() {
     val guessWordEvent: LiveData<Event<Unit>>
         get() = _guessWordEvent
 
+    private val _showHelpEvent = MutableLiveData<Event<Unit>>()
+    val showHelpEvent: LiveData<Event<Unit>>
+        get() = _showHelpEvent
+
 
     fun loadUser(){
         userId.value?.let {
@@ -82,6 +86,10 @@ class HomeViewModel(private val dataRepository: DataRepository) : ViewModel() {
 
     fun guessWord(){
         _guessWordEvent.value = Event(Unit)
+    }
+
+    fun showHelp(){
+        _showHelpEvent.value = Event(Unit)
     }
 
     private fun setUserInfo(data: User?){
