@@ -6,6 +6,23 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <!--  TODO: ripple effect need to curve around buttons  -->
+    <style name="NavItemBackgroundStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/nav_item_background</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="android:foreground">?android:attr/selectableItemBackground</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:padding">12dp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:stateListAnimator">@null</item>
     </style>
 
 </resources>

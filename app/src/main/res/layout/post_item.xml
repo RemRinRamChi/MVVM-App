@@ -27,8 +27,11 @@
             android:orientation="vertical"
             android:padding="15dp"
             app:mark="@{post.read}"
-            app:unmarkedColor="@{@color/unmarkedColor}"
-            app:markedColor="@{@color/markedColor}"
+            app:unmarkedColor="@{@color/colorUnmarked}"
+            app:markedColor="@{@color/colorMarked}"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?android:attr/selectableItemBackground"
             android:onClick="@{() -> postsViewModel.onPostToggled(post)}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">

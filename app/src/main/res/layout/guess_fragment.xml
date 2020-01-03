@@ -49,9 +49,8 @@
                 android:textSize="20sp" />
 
             <Button
+                style="@style/NavItemBackgroundStyle"
                 android:id="@+id/btnSubmitGuess"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 app:disableIfEmptyOrNull="@{viewModel.guessWord}"
                 android:onClick="@{() -> viewModel.submitGuessWord()}"

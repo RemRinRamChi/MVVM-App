@@ -1,10 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/container"
+    android:orientation="vertical"
     tools:context=".MainActivity">
 
-</FrameLayout>
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/tToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorToolBar"
+        android:elevation="2dp"
+        app:contentInsetEnd="0dp"
+        app:contentInsetStart="0dp">
+
+        <TextView
+            android:id="@+id/tvToolbarTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:text="@string/app_name"
+            android:textSize="@dimen/med2large_text" />
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <FrameLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</LinearLayout>

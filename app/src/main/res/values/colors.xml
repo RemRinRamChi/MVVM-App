@@ -1,9 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#D81B60</color>
+    <color name="colorPrimary">#FFFFFF</color>
+    <color name="colorPrimaryDark">#FFFFFF</color>
+    <color name="colorAccent">@color/colorGreen</color>
 
-    <color name="markedColor">#FF444444</color>
-    <color name="unmarkedColor">#FFFFFFFF</color>
+    <color name="colorWhite">#FFFFFF</color>
+    <color name="colorBlack">#000000</color>
+    <color name="colorGreen">#23D86D</color>
+    <color name="colorOrange">#FFA200</color>
+    <color name="colorPurple">#8B189B</color>
+
+    <color name="colorMarked">#FF444444</color>
+    <color name="colorUnmarked">#FFFFFFFF</color>
+
+    <color name="colorToolBar">@color/colorWhite</color>
+    <color name="colorCard">@color/colorWhite</color>
+    <color name="colorCardBorder">#C9C9C9</color>
+    <color name="colorBackground">#F8F8F8</color>
 </resources>
