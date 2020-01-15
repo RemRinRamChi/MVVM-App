@@ -5,6 +5,7 @@ import androidx.databinding.BindingAdapter
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 
 @BindingAdapter("app:showElseHide")
 fun showElseHide(view: View, boolLiveData: LiveData<Boolean>) {
@@ -44,5 +45,16 @@ fun <T> setRecyclerViewData(recyclerView: RecyclerView, liveData: LiveData<T>) {
         if (recyclerView.adapter is BindableAdapter<*>) {
             (recyclerView.adapter as BindableAdapter<T>).setData(data)
         }
+    }
+}
+
+@BindingAdapter("app:onRefresh")
+fun setSwipeRefreshListener(
+    swipeRefreshLayout: SwipeRefreshLayout,
+    onRefreshListener: SwipeRefreshLayout.OnRefreshListener
+) {
+    swipeRefreshLayout.setOnRefreshListener {
+        swipeRefreshLayout.isRefreshing = false
+        onRefreshListener.onRefresh()
     }
 }

@@ -15,9 +15,14 @@ import kotlinx.coroutines.launch
 class HomeViewModel(private val dataRepository: DataRepository) : ViewModel() {
     val userId = MutableLiveData<String>()
 
-    private val _message = MutableLiveData<Int>().apply { value = R.string.awaiting_input }
-    val message: LiveData<Int>
-        get() = _message
+    private val _showProgress = MutableLiveData<Boolean>()
+    val showProgress : LiveData<Boolean>
+        get() = _showProgress
+
+    private val _showErr = MutableLiveData<Boolean>()
+    val showErr : LiveData<Boolean>
+        get() = _showErr
+
 
     private val _userName = MutableLiveData<String>()
     val userName: LiveData<String>
@@ -42,7 +47,8 @@ class HomeViewModel(private val dataRepository: DataRepository) : ViewModel() {
 
     fun loadUser(){
         userId.value?.let {
-            _message.value = R.string.loading
+            _showProgress.value = true
+            _showErr.value = false
 
             viewModelScope.launch {
                 try {
@@ -50,34 +56,36 @@ class HomeViewModel(private val dataRepository: DataRepository) : ViewModel() {
                     val data: User = dataRepository.getUser(it)
 
                     setUserInfo(data)
-                    _message.value = R.string.blank
 
                 } catch (e: Exception) {
 
                     e.toString().logError()
 
                     setUserInfo(null)
-                    _message.value = R.string.general_err_message
+                    _showErr.value = true
+
+                } finally {
+                    _showProgress.value = false
                 }
             }
         }
     }
 
     fun enterUser(){
+        _showErr.value = false
+
         with (userId.value){
             if(this != null && this.isNotEmpty()){
                 _enterUserEvent.value = Event(this)
 
             } else {
-                _message.value = R.string.enter_valid_user_id
+                _showErr.value = true
 
             }
         }
     }
 
     fun refresh(){
-        _message.value = R.string.refreshing_user
-
         viewModelScope.launch {
             dataRepository.resetData()
             loadUser()

@@ -9,95 +9,113 @@
             type="com.yawjenn.mvvmpractice.home.HomeViewModel" />
     </data>
 
-    <FrameLayout
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:onRefresh="@{() -> viewModel.refresh()}">
 
-        <TextView
-            android:id="@+id/tvMessage"
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center_horizontal"
-            android:padding="10dp"
-            android:textColor="@android:color/holo_red_light"
-            android:textSize="14sp"
-            android:textStyle="bold"
-            android:text="@{viewModel.message}"
-            tools:text="Loading" />
+            android:layout_height="match_parent">
 
-        <LinearLayout
-            android:id="@+id/llMain"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="40dp"
-            android:paddingTop="10dp"
-            android:orientation="vertical"
-            tools:context=".home.HomeFragment">
-
-            <TextView
-                android:id="@+id/tvUserName"
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
-                android:textSize="30sp"
-                android:text="@{viewModel.userName}"
-                tools:text="User Name" />
+                android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/tvEmail"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="30dp"
-                android:textSize="20sp"
-                android:text="@{viewModel.email}"
-                tools:text="Email" />
+                <ProgressBar
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/network_progress_bar_height"
+                    android:indeterminate="true"
+                    android:visibility="gone"
+                    app:showElseHide="@{viewModel.showProgress}" />
 
-            <EditText
-                android:id="@+id/etUserId"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="40dp"
-                android:inputType="number"
-                android:text="@={viewModel.userId}"
-                android:textSize="20sp" />
+                <TextView
+                    android:id="@+id/tvErrMessage"
+                    android:visibility="gone"
+                    tools:visibility="visible"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_horizontal"
+                    android:padding="10dp"
+                    android:textColor="@android:color/holo_red_light"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:text="@string/general_err_message"
+                    app:showElseHide="@{viewModel.showErr}" />
 
-            <Button
-                style="@style/NavItemBackgroundStyle"
-                android:id="@+id/btnLoadUser"
-                android:layout_marginBottom="10dp"
-                android:onClick="@{() -> viewModel.loadUser()}"
-                android:text="@string/load_user" />
+                <LinearLayout
+                    android:id="@+id/llMain"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="40dp"
+                    android:paddingTop="10dp"
+                    android:orientation="vertical"
+                    tools:context=".home.HomeFragment">
 
-            <Button
-                style="@style/NavItemBackgroundStyle"
-                android:id="@+id/btnEnterUser"
-                android:layout_marginBottom="26dp"
-                android:onClick="@{() -> viewModel.enterUser()}"
-                app:disableIfEmptyOrNull="@{viewModel.userId}"
-                android:text="@string/enter_user" />
+                    <TextView
+                        android:id="@+id/tvUserName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="20dp"
+                        android:textSize="30sp"
+                        android:text="@{viewModel.userName}"
+                        tools:text="User Name" />
 
-            <Button
-                style="@style/NavItemBackgroundStyle"
-                android:id="@+id/btnRefresh"
-                android:layout_marginBottom="26dp"
-                android:onClick="@{() -> viewModel.refresh()}"
-                android:text="@string/refresh" />
+                    <TextView
+                        android:id="@+id/tvEmail"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="30dp"
+                        android:textSize="20sp"
+                        android:text="@{viewModel.email}"
+                        tools:text="Email" />
 
-            <Button
-                style="@style/NavItemBackgroundStyle"
-                android:id="@+id/btnSubmitRandom"
-                android:layout_marginBottom="10dp"
-                android:onClick="@{() -> viewModel.guessWord()}"
-                android:text="@string/submit_random" />
+                    <EditText
+                        android:id="@+id/etUserId"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="40dp"
+                        android:inputType="number"
+                        android:text="@={viewModel.userId}"
+                        android:textSize="20sp" />
 
-            <Button
-                style="@style/NavItemBackgroundStyle"
-                android:id="@+id/btnShowHelp"
-                android:onClick="@{() -> viewModel.showHelp()}"
-                android:text="@string/show_help" />
+                    <Button
+                        style="@style/NavItemBackgroundStyle"
+                        android:id="@+id/btnLoadUser"
+                        android:layout_marginBottom="10dp"
+                        android:onClick="@{() -> viewModel.loadUser()}"
+                        android:text="@string/load_user" />
 
-        </LinearLayout>
+                    <Button
+                        style="@style/NavItemBackgroundStyle"
+                        android:id="@+id/btnEnterUser"
+                        android:layout_marginBottom="26dp"
+                        android:onClick="@{() -> viewModel.enterUser()}"
+                        app:disableIfEmptyOrNull="@{viewModel.userId}"
+                        android:text="@string/enter_user" />
+
+                    <Button
+                        style="@style/NavItemBackgroundStyle"
+                        android:id="@+id/btnSubmitRandom"
+                        android:layout_marginBottom="10dp"
+                        android:onClick="@{() -> viewModel.guessWord()}"
+                        android:text="@string/submit_random" />
+
+                    <Button
+                        style="@style/NavItemBackgroundStyle"
+                        android:id="@+id/btnShowHelp"
+                        android:onClick="@{() -> viewModel.showHelp()}"
+                        android:text="@string/show_help" />
+
+                </LinearLayout>
 
 
-    </FrameLayout>
+            </FrameLayout>
+
+        </ScrollView>
+
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
 </layout>
